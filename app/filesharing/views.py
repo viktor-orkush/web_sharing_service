@@ -16,9 +16,8 @@ def form_upload(request):
         if form.is_valid():
             new_document = form.save()
             #task schedule to delete file from server
-            obj_new_document = Document.objects.get(pk=new_document.pk)
-            doc_name = obj_new_document.document.name
-            file_live_time = obj_new_document.file_live_time
+            doc_name = new_document.document.name
+            file_live_time = new_document.file_live_time
             delete_file_schedule(doc_name, schedule=file_live_time)
             return redirect('home')
     else:
