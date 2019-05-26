@@ -14,7 +14,17 @@ def form_upload(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            new_document = form.save()
+            description = form.cleaned_data.get('description')
+            document = form.cleaned_data.get('document')
+
+            file_live_day = form.cleaned_data.get('file_live_day')
+            file_live_hour = form.cleaned_data.get('file_live_hour')
+            file_live_minute = form.cleaned_data.get('file_live_minute')
+
+            file_live_time_in_minute = file_live_day * 24 * 60 + file_live_hour * 60 + file_live_minute
+
+            # new_document = form.save()
+            new_document = Document.objects.create(description=description, document=document, file_live_time = file_live_time_in_minute)
             #task schedule to delete file from server
             doc_name = new_document.document.name
             file_live_time = new_document.file_live_time

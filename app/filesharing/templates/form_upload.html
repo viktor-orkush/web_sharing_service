@@ -1,12 +1,63 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}form upload{% endblock %}
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+{#        {{ form.as_p }}#}
 
-  <p><a href="{% url 'home' %}">Return to home</a></p>
+        <div class="file-upload">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3>Форма загрузки файла</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Название</h5>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="description" placeholder="Название файла">
+                    </div>
+
+                    <h5 class="card-title">Время жизни файла</h5>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputCity">Дней</label>
+                            <input type="number" class="form-control" id="file_live_day" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">Часов</label>
+                            <input type="number" class="form-control" id="file_live_hour" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputZip">Минут</label>
+                            <input type="number" class="form-control" id="file_live_minute" required>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success btn-sm btn-block" type="button"
+                            onclick="$('.file-upload-input').trigger( 'click' )">Выбрать файл
+                    </button>
+
+                    <div class="image-upload-wrap">
+                        <input class="file-upload-input" type='file' onchange="readURL(this);" id="document" required />
+                        <div class="drag-text">
+                            <h3>Перетяните файл сюда</h3>
+                        </div>
+                    </div>
+                    <div class="file-upload-content">
+                        <img class="file-upload-image" src="#" alt="your image"/>
+
+                        <button type="button" onclick="removeUpload()" class="btn btn-danger btn-sm btn-block">Удалить
+                            <span class="image-title">Файл загружен</span></button>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Загрузить</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="{% static 'js/file_upload.js' %}"></script>
+
 {% endblock %}
