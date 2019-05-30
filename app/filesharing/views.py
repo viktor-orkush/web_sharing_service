@@ -22,8 +22,6 @@ def form_upload(request):
             file_live_minute = form.cleaned_data.get('file_live_minute')
 
             file_live_time_in_minute = file_live_day * 24 * 60 + file_live_hour * 60 + file_live_minute
-
-            # new_document = form.save()
             new_document = Document.objects.create(description=description, document=document, file_live_time = file_live_time_in_minute)
             #task schedule to delete file from server
             doc_name = new_document.document.name
